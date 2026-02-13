@@ -19,9 +19,100 @@
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
     <script type="module" crossorigin src="./assets/index-C46VL_Z6.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-mhEZNk6s.css">
+    <style>
+      /* Orange header styling */
+      header {
+        background-color: #FF4500 !important;
+        border-bottom: none !important;
+      }
+      
+      /* White text in header */
+      header h1,
+      header * {
+        color: white !important;
+      }
+      
+      /* Reddit Snoo logo styling */
+      header h1::before {
+        content: '';
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='white' d='M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm5.25 7.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-10.5 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5.25 8.5c-2.21 0-4-1.79-4-4 0-.55.45-1 1-1s1 .45 1 1c0 1.1.9 2 2 2s2-.9 2-2c0-.55.45-1 1-1s1 .45 1 1c0 2.21-1.79 4-4 4z'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 12px;
+        vertical-align: middle;
+      }
+      
+      /* Title text styling - RECHO bold, rest regular */
+      header h1 {
+        display: flex;
+        align-items: center;
+        font-size: 1.125rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      /* Make RECHO bolder */
+      header h1 span:first-child,
+      header h1 strong:first-child {
+        font-weight: 700;
+      }
+    </style>
   </head>
 
   <body>
     <div id="root"></div>
+    <script>
+      // Update header title after React renders
+      function updateHeaderTitle() {
+        const header = document.querySelector('header');
+        if (header) {
+          const h1 = header.querySelector('h1');
+          if (h1 && !h1.dataset.updated) {
+            // Create Reddit Snoo logo SVG (white silhouette)
+            const logoSvg = `
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px; flex-shrink: 0;">
+                <path d="M16 0C7.16 0 0 7.16 0 16C0 24.84 7.16 32 16 32C24.84 32 32 24.84 32 16C32 7.16 24.84 0 16 0ZM16 6C17.1 6 18 6.9 18 8C18 9.1 17.1 10 16 10C14.9 10 14 9.1 14 8C14 6.9 14.9 6 16 6ZM24 12C24 13.1 23.1 14 22 14C20.9 14 20 13.1 20 12C20 10.9 20.9 10 22 10C23.1 10 24 10.9 24 12ZM10 12C10 13.1 9.1 14 8 14C6.9 14 6 13.1 6 12C6 10.9 6.9 10 8 10C9.1 10 10 10.9 10 12ZM16 26C12.69 26 10 23.31 10 20C10 19.45 10.45 19 11 19C11.55 19 12 19.45 12 20C12 22.21 13.79 24 16 24C18.21 24 20 22.21 20 20C20 19.45 20.45 19 21 19C21.55 19 22 19.45 22 20C22 23.31 19.31 26 16 26Z" fill="white"/>
+                <path d="M16 4L18 8L16 7L14 8L16 4Z" fill="white"/>
+              </svg>
+            `;
+            
+            // Update title text
+            h1.innerHTML = `
+              ${logoSvg}
+              <span style="font-weight: 700;">RECHO</span>
+              <span style="font-weight: 400; margin-left: 4px;">Reddit Performance Report</span>
+            `;
+            h1.style.display = 'flex';
+            h1.style.alignItems = 'center';
+            h1.style.textTransform = 'uppercase';
+            h1.style.letterSpacing = '0.05em';
+            h1.dataset.updated = 'true';
+          }
+        }
+      }
+      
+      // Try to update immediately
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          setTimeout(updateHeaderTitle, 100);
+          setTimeout(updateHeaderTitle, 500);
+          setTimeout(updateHeaderTitle, 1000);
+        });
+      } else {
+        setTimeout(updateHeaderTitle, 100);
+        setTimeout(updateHeaderTitle, 500);
+        setTimeout(updateHeaderTitle, 1000);
+      }
+      
+      // Use MutationObserver to catch when React renders
+      const observer = new MutationObserver(() => {
+        updateHeaderTitle();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    </script>
   </body>
 </html>
